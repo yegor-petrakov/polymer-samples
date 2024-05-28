@@ -21,8 +21,11 @@ import { Button } from "@/components/ui/button"
 import ButtonElement from '@/components/ButtonElement'
 import { Card } from "@/components/ui/card"
 
+import useTitle from '../../hooks/useTitle'
+
 const UsersList = () => {
   const navigate = useNavigate()
+  useTitle("Пользователи")
 
   const {
     data: users,
@@ -39,12 +42,14 @@ const UsersList = () => {
 
   if (isSuccess) {
 
+    console.log(users)
+
     content = users && users.map(user => {
       return (
         <TableBody key={user.id}>
           <TableRow>
-            <TableCell className="px-4 py-3">{user.username}</TableCell>
-            <TableCell className="px-4 py-3">{user.roles.toString().replaceAll(',', ', ')}</TableCell>
+            <TableCell className="px-4 py-3">{user.userName}</TableCell>
+            <TableCell className="px-4 py-3">{user.role}</TableCell>
             <TableCell className="px-4 py-3 text-right">
               <Button
                 onClick={() => navigate(`/dash/users/${user.id}`)}

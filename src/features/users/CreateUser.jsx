@@ -44,8 +44,11 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import { useAddNewUserMutation } from './usersApiSlice'
 
+import useTitle from '../../hooks/useTitle'
+
 const CreateUser = () => {
     const navigate = useNavigate()
+    useTitle("Создание")
 
     const [addNewUser, {
         isLoading,

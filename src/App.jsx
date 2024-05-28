@@ -28,7 +28,6 @@ function App() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<Login />} />
-
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={['user', 'editor', 'admin']} />}>
             <Route path="dash" element={<DashLayout />}>

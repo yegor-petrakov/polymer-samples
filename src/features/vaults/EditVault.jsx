@@ -28,12 +28,15 @@ import TextareaField from '@/components/TextareaField'
 import ButtonElement from '@/components/ButtonElement'
 import CodeVault from '../../components/CodeVault'
 
+import useTitle from "../../hooks/useTitle"
+
 
 
 const EditVault = () => {
 
     const { id } = useParams()
     const navigate = useNavigate()
+    useTitle("Редактирование")
 
     const {
         data: vault,

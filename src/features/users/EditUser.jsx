@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import EditUserForm from './EditUserForm'
 
 const EditUser = () => {
-    useTitle('...')
+    useTitle('Редактирование')
 
     const { id } = useParams()
 

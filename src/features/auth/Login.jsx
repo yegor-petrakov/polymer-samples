@@ -6,6 +6,8 @@ import { useLoginMutation } from './authApiSlice'
 import useTitle from '../../hooks/useTitle'
 import usePersist from '../../hooks/usePersist'
 
+import AlertElement from '@/components/AlertElement'
+
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -61,12 +63,16 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { accessToken } = await login({ username, password }).unwrap()
+            const { accessToken } = await login({ login: username, password }).unwrap()
+
+            console.log(accessToken)
+
             dispatch(setCredentials({ accessToken }))
             setUsername('')
             setPassword('')
             navigate('/dash')
         } catch (err) {
+            console.log('error message: ', err)
             if (!err.status) {
                 setErrMsg('No Server Response');
             } else if (err.status === 400) {
@@ -74,9 +80,9 @@ const Login = () => {
             } else if (err.status === 401) {
                 setErrMsg('Unauthorized');
             } else {
-                setErrMsg(err.data?.message);
+                setErrMsg(err);
             }
-            errRef.current.focus();
+            // errRef.current.focus();
         }
     }
 
@@ -150,17 +156,18 @@ const Login = () => {
                             }
 
                         </div>
+
                     </form>
                 </CardContent>
             </Card>
             {errMsg
-                ? (<Alert variant="destructive" className="w-[350px] mt-3 bg-red-100">
-                    {/* <Terminal className="h-4 w-4" /> */}
-                    <AlertTitle>Ошибка!</AlertTitle>
-                    <AlertDescription>
-                        {errMsg}
-                    </AlertDescription>
-                </Alert>)
+                ? (
+                    <div className='mt-3'>
+                        <AlertElement
+                            error={errMsg}
+                        />
+                    </div>
+                )
                 : ('')
             }
 
@@ -168,7 +175,7 @@ const Login = () => {
     )
 
     return (
-        <div className='h-screen w-full bg-slate-100 flex justify-center items-center'>
+        <div className='h-screen w-full bg-slate-100 dark:bg-slate-800 flex justify-center items-center'>
             {content}
         </div>
     )

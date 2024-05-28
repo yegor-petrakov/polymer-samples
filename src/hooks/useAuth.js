@@ -6,21 +6,20 @@ const useAuth = () => {
     const token = useSelector(selectCurrentToken)
     let isEditor = false
     let isAdmin = false
-    let status = "user"
+    let role = "user"
 
     if (token) {
+
         const decoded = jwtDecode(token)
-        const { username, roles } = decoded.UserInfo
+        
+        const role = decoded.clientRole
 
-        isEditor = roles.includes('editor')
-        isAdmin = roles.includes('admin')
-
-        if (isEditor) status = "editor"
-        if (isAdmin) status = "admin"
-
-        return { username, roles, status, isEditor, isAdmin }
+        isAdmin = role === 'admin' ? true : false
+        isEditor = role === 'editor' ? true : false
+        
+        return { role, isAdmin, isEditor }
     }
 
-    return { username: '', roles: [], isEditor, isAdmin, status }
+    return { role, isEditor, isAdmin }
 }
 export default useAuth

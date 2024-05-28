@@ -36,6 +36,8 @@ import { Badge } from "@/components/ui/badge"
 import AlertElement from '@/components/AlertElement'
 import Loader from '@/components/ui/Loader'
 
+import useTitle from "../../hooks/useTitle"
+
 const VaultsList = () => {
 
     const {
@@ -47,6 +49,7 @@ const VaultsList = () => {
     } = useGetVaultsQuery('Vault')
 
     const navigate = useNavigate()
+    useTitle("Ячейки")
 
     const handleEditClicked = (id) => {
         navigate(`/dash/vaults/${id}`)
@@ -69,7 +72,7 @@ const VaultsList = () => {
 
     if (isSuccess) {
 
-        // console.log(vaults)
+        console.log(vaults)
 
         tableContent = vaults.map(vault => {
 

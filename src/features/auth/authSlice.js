@@ -5,6 +5,10 @@ const authSlice = createSlice({
     initialState: { token: null },
     reducers: {
         setCredentials: (state, action) => {
+            
+            console.log('state and action')
+            console.log(state, action)
+            
             const { accessToken } = action.payload
             state.token = accessToken
         },
@@ -19,3 +23,6 @@ export const { setCredentials, logOut } = authSlice.actions
 export default authSlice.reducer
 
 export const selectCurrentToken = (state) => state.auth.token
+
+
+

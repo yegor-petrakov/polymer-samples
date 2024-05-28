@@ -10,9 +10,12 @@ import AlertElement from '@/components/AlertElement'
 
 import { useAddNewVaultMutation } from './vaultsApiSlice'
 
+import useTitle from '../../hooks/useTitle'
+
 const CreateVault = () => {
 
     const navigate = useNavigate()
+    useTitle("Создание")
 
     const [addNewVault, {
         isLoading,

@@ -12,9 +12,9 @@ const AlertElement = ({ error }) => {
     return (
         <Alert variant="destructive">
             <CircleAlert />
-            <AlertTitle>Ошибка {error.status}</AlertTitle>
+            <AlertTitle>Ошибка {error.originalStatus}</AlertTitle>
             <AlertDescription>
-                {error.data.message}
+                {error.data}
             </AlertDescription>
         </Alert>
     )

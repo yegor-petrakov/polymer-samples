@@ -17,13 +17,13 @@ import { CornerDownRight } from 'lucide-react'
 
 const Home = () => {
   useTitle('Система управления образцами')
-  const { username, roles } = useAuth()
+  const { role } = useAuth()
 
   const currentDate = new Date().toLocaleString('ru-RU');
 
   return (
     <Card className="mt-6">
-      <CardHeader>
+      {/* <CardHeader>
         <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
           Система управления образцами
         </h2>
@@ -65,7 +65,7 @@ const Home = () => {
       </CardContent>
       <CardFooter>
 
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   )
 }

@@ -17,10 +17,13 @@ import { ChevronLeft, CircleAlert } from 'lucide-react'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+import useTitle from '../../hooks/useTitle'
 
 const CreateCode = () => {
 
     const navigate = useNavigate()
+
+    useTitle("Создание")
 
     const [addNewCode, {
         isLoading,
@@ -91,7 +94,7 @@ const CreateCode = () => {
                         path='/dash/codes'
                     />
                     <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                        Создание маркировки
+                        Маркировки Создание маркировки
                     </h4>
                 </div>
             </div>

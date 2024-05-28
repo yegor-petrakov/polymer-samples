@@ -12,9 +12,13 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from '../../components/ui/label'
 
+import useTitle from '../../hooks/useTitle'
+
 const EditCode = () => {
     const { id } = useParams()
     const navigate = useNavigate()
+
+    useTitle("Редактирование")
 
     const {
         data: code,
