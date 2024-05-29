@@ -1,12 +1,6 @@
-import {
-    createSelector,
-    createEntityAdapter
-} from "@reduxjs/toolkit";
-import { apiSlice } from "../../app/api/apiSlice"
-
-const codesAdapter = createEntityAdapter({})
-
-const initialState = codesAdapter.getInitialState()
+import { 
+    apiSlice 
+} from "../../app/api/apiSlice"
 
 export const codesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -34,24 +28,20 @@ export const codesApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         addNewCode: builder.mutation({
-            query: initialCode => ({
+            query: code => ({
                 url: '/codes',
                 method: 'POST',
-                body: {
-                    ...initialCode,
-                }
+                body: code
             }),
             invalidatesTags: [
                 { type: 'Code', id: "LIST" }
             ]
         }),
         updateCode: builder.mutation({
-            query: initialCode => ({
-                url: `/codes`,
-                method: 'PATCH',
-                body: {
-                    ...initialCode,
-                }
+            query: (code) => ({
+                url: `/codes/${code.id}`,
+                method: 'PUT',
+                body: code
             }),
             invalidatesTags: (result, error, arg) => [
                 { type: 'Code', id: arg.id },
@@ -60,7 +50,7 @@ export const codesApiSlice = apiSlice.injectEndpoints({
         }),
         deleteCode: builder.mutation({
             query: ({ id }) => ({
-                url: `/codes`,
+                url: `/codes/${id}`,
                 method: 'DELETE',
                 body: { id }
             }),

@@ -221,11 +221,11 @@ import { useMediaQuery } from 'react-responsive'
 const Navigation = () => {
 
     const isDesktop = useMediaQuery({
-        query: '(min-width: 924px)'
+        query: '(min-width: 724px)'
     })
 
     const isMobile = useMediaQuery({
-        query: '(max-width: 924px)'
+        query: '(max-width: 724px)'
     })
 
 
@@ -238,6 +238,12 @@ const Navigation = () => {
         isError,
         error
     }] = useSendLogoutMutation()
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/')
+        }
+    }, [isSuccess])
 
 
     const { pathname } = useLocation();

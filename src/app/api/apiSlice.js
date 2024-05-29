@@ -9,6 +9,8 @@ const baseQuery = fetchBaseQuery({
 
         if (token) {
             headers.set("Authorization", `Bearer ${token}`)
+            headers.set('Accept', 'application/json, text/plain')
+            headers.set('Content-Type', 'application/json;charset=UTF-8')
         }
         return headers
     }
@@ -46,34 +48,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             return refreshResult
         }
     }
-
-    console.log('---------------------------')
-    console.log(result)
-    console.log(result)
-    console.log('---------------------------')
-
-    // // If you want, handle other status codes, too
-    // if (result?.error?.status === 403 || result?.error?.status === 401) {
-    //     console.log('sending refresh token')
-
-    //     // send refresh token to get new access token 
-    //     const refreshResult = await baseQuery('/auth/refresh', api, extraOptions)
-
-    // if (refreshResult?.data) {
-
-    //     // store the new token 
-    //     api.dispatch(setCredentials({ ...refreshResult.data }))
-
-    //     // retry original query with new access token
-    //     result = await baseQuery(args, api, extraOptions)
-    // } else {
-
-    //     if (refreshResult?.error?.status === 403) {
-    //         refreshResult.error.data.message = "Your login has expired."
-    //     }
-    //     return refreshResult
-    // }
-    // }
 
     return result
 }

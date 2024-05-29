@@ -30,13 +30,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            providesTags: (result) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: 'User', id })),
-                        { type: 'User', id: 'LIST' },
-                    ]
-                    : [{ type: 'User', id: 'LIST' }],
+            // providesTags: (result) =>
+            //     result
+            //         ? [
+            //             ...result.map(({ id }) => ({ type: 'User', id })),
+            //             { type: 'User', id: 'LIST' },
+            //         ]
+            //         : [{ type: 'User', id: 'LIST' }],
         }),
         addNewUser: builder.mutation({
             query: initialVault => ({

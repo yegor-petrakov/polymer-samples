@@ -9,10 +9,13 @@ import {
 import { CircleAlert } from "lucide-react"
 
 const AlertElement = ({ error }) => {
+
+    console.log('Origin - AlertElement Component')
+
     return (
         <Alert variant="destructive">
             <CircleAlert />
-            <AlertTitle>Ошибка {error.originalStatus}</AlertTitle>
+            <AlertTitle>Ошибка {error.status}</AlertTitle>
             <AlertDescription>
                 {error.data}
             </AlertDescription>

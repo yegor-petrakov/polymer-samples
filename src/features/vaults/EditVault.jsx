@@ -3,6 +3,7 @@ import { useGetVaultByIdQuery, useUpdateVaultMutation, useDeleteVaultMutation } 
 import { useGetCodesQuery } from '../codes/codesApiSlice'
 import { useAddNewCodeVaultMutation } from './codeVaultApiSlice'
 import { useNavigate, useParams } from "react-router-dom"
+import { useMediaQuery } from 'react-responsive'
 
 import { Button } from "@/components/ui/button"
 
@@ -37,6 +38,14 @@ const EditVault = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     useTitle("Редактирование")
+
+    const isDesktop = useMediaQuery({
+        query: '(min-width: 724px)'
+    })
+
+    const isMobile = useMediaQuery({
+        query: '(max-width: 724px)'
+    })
 
     const {
         data: vault,
@@ -91,7 +100,7 @@ const EditVault = () => {
     const onVaultNameChange = (e) => setVaultName(e.target.value)
     const onNoteChange = (e) => setNote(e.target.value)
 
-    const handleUpdateVault = () => updateVault({ id, vault_name: vaultName, note })
+    const handleUpdateVault = () => updateVault({ ...vault[0], id, vault_name: vaultName, note })
     const handleDeleteVault = () => deleteVault({ id })
 
     return (
@@ -105,51 +114,61 @@ const EditVault = () => {
                     <Heading level={1} headingText="Редактирование ячейки" />
                 </div>
             </div>
-            <Card>
-                <CardContent className="py-4 pt-8 flex flex-col gap-4">
+            <div className={`flex gap-4 items-baseline ${isMobile ? 'flex-col' : ''}`}>
 
-                    <InputField
-                        labelText="Название"
-                        name="vault_name"
-                        handleChange={onVaultNameChange}
-                        value={vaultName}
-                        isDisabled={isLoading}
-                    />
+                <Card className={isDesktop ? `w-1/2` : `w-full`}>
+                    <CardContent className="py-4 pt-8 flex flex-col gap-4">
 
-                    <CodeVault 
-                        currentVaultId={id}
-                    />
-
-                    <TextareaField
-                        labelText="Примечание"
-                        name="note"
-                        handleChange={onNoteChange}
-                        value={note}
-                        isDisabled={isLoading}
-                    />
-
-                </CardContent >
-                <CardFooter>
-                    <div className='mt-2 flex gap-1'>
-                        <ButtonElement
-                            variant="default"
-                            buttonText="Сохранить"
-                            isLoadingText="Сохранение..."
-                            handleClick={handleUpdateVault}
-                            isLoading={isUpdateVaultLoading}
-                            isDisabled={!canSave}
+                        <InputField
+                            labelText="Название"
+                            name="vault_name"
+                            handleChange={onVaultNameChange}
+                            value={vaultName}
+                            isDisabled={isLoading}
                         />
-                        <ButtonElement
-                            variant="destructive"
-                            buttonText="Удалить"
-                            isLoadingText="Удаление..."
-                            handleClick={handleDeleteVault}
-                            isLoading={isDeleteVaultLoading}
-                        />
-                    </div>
 
-                </CardFooter>
-            </Card >
+                        <TextareaField
+                            labelText="Примечание"
+                            name="note"
+                            handleChange={onNoteChange}
+                            value={note}
+                            isDisabled={isLoading}
+                        />
+
+                    </CardContent >
+                    <CardFooter>
+                        <div className='mt-2 flex gap-1'>
+                            <ButtonElement
+                                variant="default"
+                                buttonText="Сохранить"
+                                isLoadingText="Сохранение..."
+                                handleClick={handleUpdateVault}
+                                isLoading={isUpdateVaultLoading}
+                                isDisabled={!canSave}
+                            />
+                            <ButtonElement
+                                variant="destructive"
+                                buttonText="Удалить"
+                                isLoadingText="Удаление..."
+                                handleClick={handleDeleteVault}
+                                isLoading={isDeleteVaultLoading}
+                            />
+                        </div>
+
+                    </CardFooter>
+                </Card >
+
+                <Card className={isDesktop ? `w-1/2` : `w-full`}>
+                    <CardContent className="py-4 pt-8 flex flex-col gap-4">
+
+                        <CodeVault
+                            currentVaultId={id}
+                        />
+
+                    </CardContent >
+                    <CardFooter></CardFooter>
+                </Card >
+            </div>
         </div >
     )
 }

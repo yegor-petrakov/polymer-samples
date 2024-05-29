@@ -41,22 +41,22 @@ export const vaultsApiSlice = apiSlice.injectEndpoints({
                     : [],
 
         }),
-        updateVault: builder.mutation({
-            query: initialVault => ({
-                url: `/vaults`,
-                method: 'PATCH',
-                body: {
-                    ...initialVault,
-                }
 
+
+        updateVault: builder.mutation({
+            query: (vault) => ({
+                url: `/vaults/${vault.id}`,
+                method: 'PUT',
+                body: vault,
             }),
             invalidatesTags: (result, error, arg) => [
-                { type: 'Vault', id: 'LIST' }
-            ]
+                { type: 'Vault', id: arg.id },
+                { type: 'Vault', id: 'LIST' },
+            ],
         }),
         deleteVault: builder.mutation({
             query: ({ id }) => ({
-                url: `/vaults`,
+                url: `/vaults/${id}`,
                 method: 'DELETE',
                 body: { id }
             }),

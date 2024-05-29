@@ -184,7 +184,7 @@ const CodesList = () => {
           <TableHead className="p-4">Сокращение</TableHead>
           <TableHead className="p-4">Маркировка</TableHead>
           <TableHead className="p-4">Код поставщика</TableHead>
-          <TableHead className="p-4">Категория</TableHead>
+          <TableHead className="p-4">Тип</TableHead>
           <TableHead className="p-4">Количество</TableHead>
           <TableHead className="p-4"></TableHead>
         </TableRow>

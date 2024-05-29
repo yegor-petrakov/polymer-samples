@@ -94,7 +94,7 @@ const CreateCode = () => {
                         path='/dash/codes'
                     />
                     <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                        Маркировки Создание маркировки
+                        Создание маркировки
                     </h4>
                 </div>
             </div>

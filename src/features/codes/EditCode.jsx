@@ -33,7 +33,7 @@ const EditCode = () => {
         isSuccess: isUpdateSuccess,
         isError: isUpdateError,
         error: updateError
-    }] = useUpdateCodeMutation()
+    }] = useUpdateCodeMutation(id)
 
     const [deleteCode, {
         isLoading: isDeleteLoading,
@@ -89,6 +89,7 @@ const EditCode = () => {
     }, [isSuccess])
 
     const handleUpdateCode = () => updateCode({
+        ...code[0],
         id,
         short_code_name: shortCodeName,
         code_name: codeName,
