@@ -154,6 +154,9 @@ import TooltipElement from '@/components/TooltipElement'
 
 import useTitle from '../../hooks/useTitle'
 
+
+import useAuth from '../../hooks/useAuth'
+
 const CodesList = () => {
 
   const navigate = useNavigate()
@@ -176,9 +179,7 @@ const CodesList = () => {
   } = useGetCodesQuery('Code')
 
 
-  if (isSuccess) {
-    console.log(codes)
-  }
+  const { role } = useAuth()
 
 
   const table = (
@@ -192,7 +193,8 @@ const CodesList = () => {
           <TableHead className="p-4">Количество</TableHead>
           <TableHead className="p-4">Остатки</TableHead>
           <TableHead className="p-4">Тип</TableHead>
-          <TableHead className="p-4"></TableHead>
+          {role == 'admin' || role == 'editor' ? (<TableHead className="p-4"></TableHead>) : ('')}
+
         </TableRow>
       </TableHeader>
       {
@@ -216,7 +218,7 @@ const CodesList = () => {
                     <TableCell className="px-4 py-3">{code.short_code_name}</TableCell>
                     <TableCell className="px-4 py-3 flex items-center gap-2">
                       {code.code_name}
-                      {code.note !== '' ? (<Note noteText={code.note} />) : ('')}
+                      <Note noteText={code.note} />
                     </TableCell>
                     <TableCell className="px-4 py-3">{code.supplier_code_name}</TableCell>
                     <TableCell className="px-4 py-3">
@@ -237,7 +239,13 @@ const CodesList = () => {
                           return (
                             <Link
                               key={index}
-                              to={`/dash/vaults/${code.in_vaults.find(vault => vault.vault_name === vaultName).vault_id}`}
+                              to={
+                                code.in_vaults.find(vault => vault.vault_name === vaultName)
+                                  ? (role === 'admin' || role === 'editor'
+                                    ? `/dash/vaults/${code.in_vaults.find(vault => vault.vault_name === vaultName).vault_id}`
+                                    : '')
+                                  : ''
+                              }
                               className="flex"
                             >
                               <Badge className={count > 1 ? 'rounded-l' : 'rounded'} variant="outline">
@@ -256,14 +264,17 @@ const CodesList = () => {
 
                     <TableCell className="px-4 py-3">{code.type}</TableCell>
 
-                    <TableCell className="px-4 py-3 text-right">
-                      <Button
-                        onClick={() => navigate(`/dash/codes/${code.id}`)}
-                        variant="neutral"
-                      >
-                        <SquarePen size={17} />
-                      </Button>
-                    </TableCell>
+
+                    {role !== 'admin' || role !== 'editor' ? ('') : (
+                      <TableCell className="px-4 py-3 text-right">
+                        <Button
+                          onClick={() => navigate(`/dash/codes/${code.id}`)}
+                          variant="neutral"
+                        >
+                          <SquarePen size={17} />
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 </TableBody>
               )

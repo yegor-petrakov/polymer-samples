@@ -80,7 +80,7 @@ const CreateUser = () => {
 
     const handleAddNewUser = () => {
         // console.log(username, password, role, isActive)
-        addNewUser({ username, password, role, is_active: isActive })
+        addNewUser({ username, password, role, isActive })
     }
 
     return (
@@ -118,7 +118,7 @@ const CreateUser = () => {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Доступные роли</SelectLabel>
-                                    <SelectItem value="user">user</SelectItem>
+                                    <SelectItem value="viewer">viewer</SelectItem>
                                     <SelectItem value="editor">editor</SelectItem>
                                     <SelectItem value="admin">admin</SelectItem>
                                 </SelectGroup>

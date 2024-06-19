@@ -36,7 +36,10 @@ import { Badge } from "@/components/ui/badge"
 import AlertElement from '@/components/AlertElement'
 import Loader from '@/components/ui/Loader'
 
+
+
 import useTitle from "../../hooks/useTitle"
+import useAuth from "../../hooks/useAuth"
 
 const VaultsList = () => {
 
@@ -57,10 +60,12 @@ const VaultsList = () => {
 
     const handleCreateNewVaultClicked = () => navigate('/dash/vaults/create')
 
+    const { role } = useAuth()
+
     let content;
     let tableContent
 
-    // // console.log(error)
+    console.log(role)
 
     if (isLoading) {
         content = <Loader />
@@ -87,8 +92,15 @@ const VaultsList = () => {
             const renderedCodes = Object.entries(groupedCodes).map(([shortCode, count]) => {
                 const code = vault.includes.find(code => code.short_code_name === shortCode);
                 return (
-                    <Link key={shortCode} to={`/dash/codes/${code.code_id}`} className='flex'>
-                        <Badge className={`${count === 1 ? 'rounded-md' : 'rounded-l-md'} hover:cursor-pointer flex gap-2`} variant="outline">
+                    <Link
+                        key={shortCode}
+                        to={role == 'admin' || role == 'editor' ? `/dash/codes/${code.code_id}` : ''}
+                        className='flex'
+                    >
+                        <Badge
+                            className={`${count === 1 ? 'rounded-md' : 'rounded-l-md'} hover:cursor-pointer flex gap-2`}
+                            variant="outline"
+                        >
                             {shortCode}
                         </Badge>
                         {count > 1 && (
@@ -107,14 +119,20 @@ const VaultsList = () => {
                         <TableCell className="px-4 py-3 flex gap-1 flex-wrap items-center">
                             {renderedCodes}
                         </TableCell>
-                        <TableCell className="px-4 py-3 text-right">
-                            <Button
-                                onClick={() => navigate(`/dash/vaults/${vault.id}`)}
-                                variant="neutral"
-                            >
-                                <SquarePen size={17} />
-                            </Button>
-                        </TableCell>
+
+                        {
+                            role == 'admin' || role == 'editor' ? (
+                                <TableCell className="px-4 py-3 text-right">
+                                    <Button
+                                        onClick={() => navigate(`/dash/vaults/${vault.id}`)}
+                                        variant="neutral"
+                                    >
+                                        <SquarePen size={17} />
+                                    </Button>
+                                </TableCell>
+                            ) : ('')
+                        }
+
                     </TableRow>
                 </TableBody>
             );
@@ -127,7 +145,7 @@ const VaultsList = () => {
                         <TableRow>
                             <TableHead className="p-4">Название</TableHead>
                             <TableHead className="p-4">Содержимое</TableHead>
-                            <TableHead className="p-4"></TableHead>
+                            {role == 'admin' || role == 'editor' ? (<TableHead className="p-4"></TableHead>) : ('')}
                         </TableRow>
                     </TableHeader>
                     {tableContent}

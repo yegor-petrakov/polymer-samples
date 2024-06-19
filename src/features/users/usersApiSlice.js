@@ -11,32 +11,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         getUsers: builder.query({
             query: () => ({
                 url: '/users',
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
             }),
-            providesTags: (result) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: 'User', id })),
-                        { type: 'User', id: 'LIST' },
-                    ]
-                    : [{ type: 'User', id: 'LIST' }],
+            providesTags: ['User']
         }),
         getUserById: builder.query({
             query: (id) => ({
                 url: `/users/${id}`,
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
             }),
-            // providesTags: (result) =>
-            //     result
-            //         ? [
-            //             ...result.map(({ id }) => ({ type: 'User', id })),
-            //             { type: 'User', id: 'LIST' },
-            //         ]
-            //         : [{ type: 'User', id: 'LIST' }],
+            providesTags: ['User']
         }),
         addNewUser: builder.mutation({
             query: initialVault => ({
@@ -44,44 +26,25 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: {
                     ...initialVault,
-                }
+                },
             }),
-            invalidatesTags: [
-                { type: 'User', id: "LIST" }
-            ]
+            invalidatesTags: ['User']
         }),
-        // updateUser: builder.mutation({
-        //     query: initialUser => ({
-        //         url: `/users`,
-        //         method: 'PUT',
-        //         body: {
-        //             ...initialUser,
-        //         }
-
-        //     }),
-        //     invalidatesTags: (result, error, arg) => [
-        //         { type: 'User', id: 'LIST' }
-        //     ]
-        // }),
         updateUser: builder.mutation({
             query: (user) => ({
                 url: `/users/${user.id}`,
                 method: 'PUT',
                 body: user,
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'User', id: arg.id }
-            ]
+            invalidatesTags: ['User']
         }),
         deleteUser: builder.mutation({
             query: ({ id }) => ({
                 url: `/users`,
                 method: 'DELETE',
-                body: { id }
+                body: { id },
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'User', id: arg.id }
-            ]
+            invalidatesTags: ['User']
         }),
     })
 })

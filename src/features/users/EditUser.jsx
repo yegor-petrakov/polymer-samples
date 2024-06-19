@@ -90,7 +90,7 @@ const EditUser = () => {
     if (user) {
       setUsername(user.userName)
       setRole(user.role)
-      setIsActive(user.is_active)
+      setIsActive(user.isActive)
     }
   }, [isSuccess])
 
@@ -145,7 +145,7 @@ const EditUser = () => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Доступные роли</SelectLabel>
-                    <SelectItem value="user">user</SelectItem>
+                    <SelectItem value="viewer">viewer</SelectItem>
                     <SelectItem value="editor">editor</SelectItem>
                     <SelectItem value="admin">admin</SelectItem>
                   </SelectGroup>

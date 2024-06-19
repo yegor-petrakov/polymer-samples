@@ -229,7 +229,7 @@ const Navigation = () => {
     })
 
 
-    const { role } = useAuth()
+    const { userName, role } = useAuth()
     const navigate = useNavigate()
 
     const [sendLogout, {
@@ -319,25 +319,35 @@ const Navigation = () => {
                         ''
                     )}
                 </div>
-                <div className='relative'>
-                    <Button
-                        size='md'
-                        variant="ghost"
-                        className={`flex gap-1.5 ${activeTab === 'users' ? 'text-blue-700 hover:text-blue-800' : ''}`}
-                        onClick={handleUsersClicked}
-                    >
-                        <UserCog strokeWidth={1.5} />
-                        Пользователи
-                    </Button>
-                    {activeTab === 'users' ? (
-                        <div className='h-0.5 w-full bg-blue-600 rounded-t-full absolute bottom-[-8px]'></div>
-                    ) : (
-                        ''
-                    )}
-                </div>
+
+                {
+                    role === 'admin' ? (
+
+
+                        <div className='relative'>
+                            <Button
+                                size='md'
+                                variant="ghost"
+                                className={`flex gap-1.5 ${activeTab === 'users' ? 'text-blue-700 hover:text-blue-800' : ''}`}
+                                onClick={handleUsersClicked}
+                            >
+                                <UserCog strokeWidth={1.5} />
+                                Пользователи
+                            </Button>
+                            {activeTab === 'users' ? (
+                                <div className='h-0.5 w-full bg-blue-600 rounded-t-full absolute bottom-[-8px]'></div>
+                            ) : (
+                                ''
+                            )}
+                        </div>
+
+
+                    ) : ('')
+                }
+
             </div>
             <div className='flex gap-3 items-center'>
-                {/* <p className='text-sm'>{username}</p> */}
+                <p className='text-sm'>{userName}</p>
                 {logoutButton}
             </div>
         </>
@@ -368,18 +378,25 @@ const Navigation = () => {
                         <Boxes strokeWidth={1.5} />
                         Хранение
                     </Button>
-                    <Button
-                        size='md'
-                        variant="ghost"
-                        className={`flex gap-1.5 ${activeTab === 'users' ? 'text-blue-700 hover:text-blue-800' : ''}`}
-                        onClick={handleUsersClicked}
-                    >
-                        <UserCog strokeWidth={1.5} />
-                        Пользователи
-                    </Button>
+                    {
+                        role == 'editor' || role == 'admin' ? (
+                            <Button
+                                size='md'
+                                variant="ghost"
+                                className={`flex gap-1.5 ${activeTab === 'users' ? 'text-blue-700 hover:text-blue-800' : ''}`}
+                                onClick={handleUsersClicked}
+                            >
+                                <UserCog strokeWidth={1.5} />
+                                Пользователи
+                            </Button>
+                        ) : ('')
+                    }
                 </SheetContent>
             </Sheet>
-            {logoutButton}
+            <p className='text-sm'>{userName}</p>
+            <div className='flex gap-3 items-center'>
+                {logoutButton}
+            </div>
         </>
     )
 

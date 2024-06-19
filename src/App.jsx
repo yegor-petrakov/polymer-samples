@@ -29,21 +29,25 @@ function App() {
         {/* public routes */}
         <Route index element={<Login />} />
         <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth allowedRoles={['user', 'editor', 'admin']} />}>
+          <Route element={<RequireAuth allowedRoles={['viewer', 'editor', 'admin']} />}>
             <Route path="dash" element={<DashLayout />}>
 
               <Route index element={<Home />} />
 
               <Route path='codes'>
                 <Route index element={<CodesList />} />
-                <Route path=':id' element={<EditCode />} />
-                <Route path='create' element={<CreateCode />} />
+                <Route element={<RequireAuth allowedRoles={['editor', 'admin']} />}>
+                  <Route path=':id' element={<EditCode />} />
+                  <Route path='create' element={<CreateCode />} />
+                </Route>
               </Route>
 
               <Route path='vaults'>
                 <Route index element={<VaultsList />} />
-                <Route path='create' element={<CreateVault />} />
-                <Route path=':id' element={<EditVault />} />
+                <Route element={<RequireAuth allowedRoles={['editor', 'admin']} />}>
+                  <Route path='create' element={<CreateVault />} />
+                  <Route path=':id' element={<EditVault />} />
+                </Route>
               </Route>
 
               <Route element={<RequireAuth allowedRoles={['admin']} />}>

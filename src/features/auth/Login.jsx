@@ -44,7 +44,7 @@ const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [login, { isLoading }] = useLoginMutation()
+    const [login, { isLoading, isError, error }] = useLoginMutation()
 
     useEffect(() => {
         userRef.current.focus()
@@ -72,7 +72,6 @@ const Login = () => {
             setPassword('')
             navigate('/dash')
         } catch (err) {
-            // console.log('error message: ', err)
             if (!err.status) {
                 setErrMsg('No Server Response');
             } else if (err.status === 400) {

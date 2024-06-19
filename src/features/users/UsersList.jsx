@@ -3,7 +3,7 @@ import { useGetUsersQuery } from './usersApiSlice'
 import { useNavigate } from 'react-router-dom'
 
 
-import { ChevronLeft, SquarePen } from "lucide-react"
+import { ChevronLeft, SquarePen, TriangleAlert } from "lucide-react"
 
 import { Link } from 'react-router-dom'
 
@@ -48,7 +48,10 @@ const UsersList = () => {
       return (
         <TableBody key={user.id}>
           <TableRow>
-            <TableCell className="px-4 py-3">{user.userName}</TableCell>
+            <TableCell className="px-4 py-3 flex items-center gap-2">
+              { user.isActive ? ('') : (<TriangleAlert size={15} color='red' />) }
+              {user.userName}
+            </TableCell>
             <TableCell className="px-4 py-3">{user.role}</TableCell>
             <TableCell className="px-4 py-3 text-right">
               <Button
@@ -69,7 +72,7 @@ const UsersList = () => {
     <div className='p-3'>
       <div className='flex justify-between mb-3'>
         <div className='flex items-center gap-3'>
-          <ButtonElement 
+          <ButtonElement
             path='/dash'
           />
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
