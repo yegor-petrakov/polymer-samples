@@ -1,52 +1,44 @@
-import { 
-    apiSlice 
-} from "../../app/api/apiSlice"
+import {
+    createSelector,
+    createEntityAdapter
+} from "@reduxjs/toolkit";
+import { apiSlice } from "../../app/api/apiSlice"
+
+const vaultsAdapter = createEntityAdapter({})
+
+const initialState = vaultsAdapter.getInitialState()
 
 export const codesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getCodes: builder.query({
             query: () => ({
                 url: '/codes',
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
             }),
-            providesTags: (result) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: 'Code', id })),
-                        { type: 'Code', id: 'LIST' },
-                    ]
-                    : [{ type: 'Code', id: 'LIST' }],
+            providesTags: ['Code']
         }),
         getCodeById: builder.query({
             query: (id) => ({
                 url: `/codes/${id}`,
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
             }),
+            providesTags: ['Code']
         }),
         addNewCode: builder.mutation({
             query: code => ({
                 url: '/codes',
                 method: 'POST',
-                body: code
+                body: {
+                    ...code,
+                }
             }),
-            invalidatesTags: [
-                { type: 'Code', id: "LIST" }
-            ]
+            invalidatesTags: ['Code', 'Vault']
         }),
         updateCode: builder.mutation({
             query: (code) => ({
                 url: `/codes/${code.id}`,
                 method: 'PUT',
-                body: code
+                body: code,
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Code', id: arg.id },
-                { type: 'Code', id: 'LIST' }
-            ]
+            invalidatesTags: ['Code', 'Vault']
         }),
         deleteCode: builder.mutation({
             query: ({ id }) => ({
@@ -54,39 +46,16 @@ export const codesApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
                 body: { id }
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Code', id: arg.id }
-            ]
+            invalidatesTags: ['Code', 'Vault']
         }),
+
     }),
 })
 
 export const {
     useGetCodesQuery,
     useGetCodeByIdQuery,
-    useAddNewCodeMutation,
     useUpdateCodeMutation,
     useDeleteCodeMutation,
+    useAddNewCodeMutation
 } = codesApiSlice
-
-
-
-
-
-
-// // returns the query result object
-// export const selectCodesResult = codesApiSlice.endpoints.getCodes.select()
-
-// // creates memoized selector
-// const selectCodesData = createSelector(
-//     selectCodesResult,
-//     codesResult => codesResult.data // normalized state object with ids & entities
-// )
-
-// //getSelectors creates these selectors and we rename them with aliases using destructuring
-// export const {
-//     selectAll: selectAllCodes,
-//     selectById: selectCodeById,
-//     selectIds: selectCodeIds
-//     // Pass in a selector that returns the codes slice of state
-// } = codesAdapter.getSelectors(state => selectCodesData(state) ?? initialState)

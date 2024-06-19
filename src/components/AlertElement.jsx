@@ -10,7 +10,7 @@ import { CircleAlert } from "lucide-react"
 
 const AlertElement = ({ error }) => {
 
-    console.log('Origin - AlertElement Component')
+    // console.log('Origin - AlertElement Component')
 
     return (
         <Alert variant="destructive">

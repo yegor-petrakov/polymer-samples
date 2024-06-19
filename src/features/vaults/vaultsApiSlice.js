@@ -13,33 +13,14 @@ export const vaultsApiSlice = apiSlice.injectEndpoints({
         getVaults: builder.query({
             query: () => ({
                 url: '/vaults',
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
             }),
-            providesTags: (result) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: 'Vault', id })),
-                        { type: 'Vault', id: 'LIST' },
-                    ]
-                    : [{ type: 'Vault', id: 'LIST' }],
+            providesTags: ['Vault']
         }),
         getVaultById: builder.query({
             query: (id) => ({
                 url: `/vaults/${id}`,
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
             }),
-            providesTags: (result) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: 'Vault', id })),
-                        { type: 'Vault', id: 'LIST' },
-                    ]
-                    : [],
-
+            providesTags: ['Vault']
         }),
 
 
@@ -49,10 +30,7 @@ export const vaultsApiSlice = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: vault,
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Vault', id: arg.id },
-                { type: 'Vault', id: 'LIST' },
-            ],
+            invalidatesTags: ['Vault', 'Code'],
         }),
         deleteVault: builder.mutation({
             query: ({ id }) => ({
@@ -60,9 +38,7 @@ export const vaultsApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
                 body: { id }
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Vault', id: arg.id }
-            ]
+            invalidatesTags: ['Vault', 'Code'],
         }),
         addNewVault: builder.mutation({
             query: initialVault => ({
@@ -72,9 +48,7 @@ export const vaultsApiSlice = apiSlice.injectEndpoints({
                     ...initialVault,
                 }
             }),
-            invalidatesTags: [
-                { type: 'Vault', id: "LIST" }
-            ]
+            invalidatesTags: ['Vault'],
         }),
     }),
 })

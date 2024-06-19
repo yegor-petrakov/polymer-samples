@@ -47,8 +47,8 @@ const CreateCode = () => {
     const [stockLevel, setStockLevel] = useState('empty')
     const handleStockLevelChange = (e) => setStockLevel(e)
 
-    const [category, setCategory] = useState(1)
-    const handleCategoryChange = (e) => setCategory(e)
+    const [type, setType] = useState(1)
+    const handleTypeChange = (e) => setType(e)
 
     const [note, setNote] = useState('')
     const handleNoteChange = (e) => setNote(e.target.value)
@@ -63,7 +63,7 @@ const CreateCode = () => {
         isValidCodeName
     ].every(Boolean)
         && stockLevel !== null
-        && category !== null
+        && type !== null
         && !isLoading
 
     const handleCreateNewCode = () => addNewCode({
@@ -71,7 +71,7 @@ const CreateCode = () => {
         code_name: codeName,
         supplier_code_name: supplierCodeName,
         stock_level: stockLevel,
-        category_id: category,
+        type_id: type,
         note
     })
 
@@ -82,6 +82,7 @@ const CreateCode = () => {
             setSupplierCodeName('')
             setStockLevel('')
             setNote('')
+            setType('')
             navigate('/dash/codes')
         }
     }, [isSuccess, navigate])
@@ -145,10 +146,10 @@ const CreateCode = () => {
                             </Select>
                         </div>
                         <div className="grid w-1/2 items-center gap-1.5">
-                            <Label htmlFor="stock_level">Категория</Label>
-                            <Select id="stock_level" onValueChange={handleCategoryChange} value={category}>
+                            <Label htmlFor="type">Тип</Label>
+                            <Select id="type" onValueChange={handleTypeChange} value={type}>
                                 <SelectTrigger className="w-full">
-                                    <SelectValue defaultValue={1} />
+                                    <SelectValue defaultValue={type} />
                                 </SelectTrigger>
                                 <SelectContent>
 

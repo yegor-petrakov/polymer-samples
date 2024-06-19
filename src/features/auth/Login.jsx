@@ -65,14 +65,14 @@ const Login = () => {
         try {
             const { accessToken } = await login({ login: username, password }).unwrap()
 
-            console.log(accessToken)
+            // console.log(accessToken)
 
             dispatch(setCredentials({ accessToken }))
             setUsername('')
             setPassword('')
             navigate('/dash')
         } catch (err) {
-            console.log('error message: ', err)
+            // console.log('error message: ', err)
             if (!err.status) {
                 setErrMsg('No Server Response');
             } else if (err.status === 400) {

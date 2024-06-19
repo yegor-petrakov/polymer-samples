@@ -21,7 +21,6 @@ import ButtonElement from './ButtonElement'
 
 import {
   useAddNewCodeVaultMutation,
-  useGetCodeVaultByVaultIdQuery,
   useDeleteCodeVaultMutation
 } from '../features/vaults/codeVaultApiSlice'
 
@@ -161,3 +160,91 @@ const CodeVault = ({ currentVaultId }) => {
 }
 
 export default CodeVault
+
+
+// import React, { useEffect } from 'react'
+
+// import { useGetVaultByIdQuery } from '@/features/vaults/vaultsApiSlice'
+
+
+// const CodeVault = ({ currentVaultId }) => {
+
+//   const {
+//     data: vault,
+//     isLoading,
+//     isSuccess,
+//     isError,
+//     error
+//   } = useGetVaultByIdQuery(currentVaultId)
+
+//   let content
+
+
+//   if (isSuccess) {
+//     content = (
+//       <div>
+//         {vault[0].includes.map((code) => <p key={code.code_id}>{code.code_index}</p>)}
+//       </div>
+//     )
+//   }
+
+//   if (isError) {
+//     console.log(error)
+//     content = (
+//       <div>
+//         Ошибка
+//       </div>
+//     )
+//   }
+
+
+//   return (
+//     <div className="grid w-full items-center gap-1.5">
+
+//       <Label htmlFor="leftovers">
+//         Остатки
+//       </Label>
+
+//       <div className='flex gap-2'>
+
+//         <Select id="leftovers" onValueChange={handleLeftoverChange}>
+//           <SelectTrigger className="w-full">
+
+
+
+//             <SelectValue placeholder='Выберите материал' />
+
+
+
+//           </SelectTrigger>
+//           <SelectContent>
+//             {codes ? Object.values(codes).map((code) => (
+//               <SelectItem key={code.id} value={code.id}>
+//                 <Badge variant='outline' className='mr-2 rounded-md'>
+//                   {code.short_code_name}
+//                 </Badge>
+//                 {code.code_name}
+//               </SelectItem>
+//             )) : '1'}
+//           </SelectContent>
+//         </Select>
+
+//         <ButtonElement
+//           buttonText="Добавить"
+//           isLoadingText="Добавление..."
+//           isLoading={isAddNewCodeVaultLoading}
+//           isDisabled={isAddNewCodeVaultLoading || leftover.length === 0}
+//           handleClick={handleAddNewCodeVault}
+//           variant="secondary">
+//           Добавить
+//         </ButtonElement>
+
+//       </div >
+//       <div className='flex gap-2 flex-wrap mt-2'>
+//         {content}
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default CodeVault

@@ -33,7 +33,7 @@ const EditCode = () => {
         isSuccess: isUpdateSuccess,
         isError: isUpdateError,
         error: updateError
-    }] = useUpdateCodeMutation(id)
+    }] = useUpdateCodeMutation()
 
     const [deleteCode, {
         isLoading: isDeleteLoading,
@@ -41,8 +41,6 @@ const EditCode = () => {
         isError: isDeleteError,
         error: deleteError
     }] = useDeleteCodeMutation()
-
-
 
     const [shortCodeName, setShortCodeName] = useState('')
     const handleShortCodeNameChange = (e) => setShortCodeName(e.target.value)
@@ -58,8 +56,11 @@ const EditCode = () => {
     const [stockLevel, setStockLevel] = useState('')
     const handleStockLevelChange = (e) => setStockLevel(e)
 
-    const [category, setCategory] = useState('')
-    const handleCategoryChange = (e) => setCategory(e)
+    const [type, setType] = useState(1)
+    const handleTypeChange = (e) => {
+        // console.log(e)
+        setType(e)
+    }
 
     const [note, setNote] = useState('')
     const handleNoteChange = (e) => setNote(e.target.value)
@@ -69,7 +70,7 @@ const EditCode = () => {
         isValidCodeName
     ].every(Boolean)
         && stockLevel !== null
-        && category !== null
+        && type !== null
         && !isLoading
 
     useEffect(() => {
@@ -79,23 +80,26 @@ const EditCode = () => {
 
     useEffect(() => {
         if (code) {
+
             setShortCodeName(code.short_code_name)
             setCodeName(code.code_name)
             setSupplierCodeName(code.supplier_code_name)
             setStockLevel(code.stock_level)
-            setCategory(code.category_id)
+            
+            setType(code.type_id)
+
             setNote(code.note)
         }
     }, [isSuccess])
 
     const handleUpdateCode = () => updateCode({
-        ...code[0],
+        ...code,
         id,
         short_code_name: shortCodeName,
         code_name: codeName,
         supplier_code_name: supplierCodeName,
         stock_level: stockLevel,
-        category_id: category,
+        type,
         note
     })
 
@@ -110,6 +114,7 @@ const EditCode = () => {
             setSupplierCodeName('')
             setStockLevel('')
             setNote('')
+            setType('')
             navigate('/dash/codes')
         }
     }, [isUpdateSuccess || isDeleteSuccess])
@@ -152,49 +157,51 @@ const EditCode = () => {
                     />
 
                     <div className='flex gap-2'>
-                        <div className="grid w-1/2 items-center gap-1.5">
-                            <Label htmlFor="stock_level">Количество</Label>
-                            <Select id="stock_level" onValueChange={handleStockLevelChange} value={stockLevel}>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue defaultValue={stockLevel} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem key='empty' value='empty'>
-                                        Пустой
-                                    </SelectItem>
-                                    <SelectItem key='low' value='low'>
-                                        Заканчивается
-                                    </SelectItem>
-                                    <SelectItem key='enough' value='enough'>
-                                        Достаточно
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+                        <div className='flex gap-2 w-1/2'>
+                            <div className="grid w-full items-center gap-1.5">
+                                <Label htmlFor="stock_level">Количество</Label>
+                                <Select id="stock_level" onValueChange={handleStockLevelChange} value={stockLevel}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue defaultValue={stockLevel} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem key='empty' value='empty'>
+                                            Пустой
+                                        </SelectItem>
+                                        <SelectItem key='low' value='low'>
+                                            Заканчивается
+                                        </SelectItem>
+                                        <SelectItem key='enough' value='enough'>
+                                            Достаточно
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
-                        <div className="grid w-1/2 items-center gap-1.5">
-                            <Label htmlFor="category">Категория</Label>
-                            <Select id="category" onValueChange={handleCategoryChange} value={category}>
+                        <div className="grid items-center gap-1.5 w-1/2">
+                            <Label htmlFor="type">Тип</Label>
+                            <Select id="type" onValueChange={handleTypeChange} value={type}>
                                 <SelectTrigger className="w-full">
-                                    <SelectValue defaultValue={category} />
+                                    <SelectValue defaultValue={type} />
                                 </SelectTrigger>
                                 <SelectContent>
 
-                                    <SelectItem key={1} value={1}>
+                                    <SelectItem key='1' value={1}>
                                         Лента
                                     </SelectItem>
-                                    <SelectItem key={2} value={2}>
+                                    <SelectItem key='2' value={2}>
                                         Ziplink
                                     </SelectItem>
-                                    <SelectItem key={3} value={3}>
+                                    <SelectItem key='3' value={3}>
                                         Плоский ремень
                                     </SelectItem>
-                                    <SelectItem key={4} value={4}>
+                                    <SelectItem key='4' value={4}>
                                         Зубчатый ремень
                                     </SelectItem>
-                                    <SelectItem key={5} value={5}>
+                                    <SelectItem key='5' value={5}>
                                         Покрытие
                                     </SelectItem>
-                                    <SelectItem key={6} value={6}>
+                                    <SelectItem key='6' value={6}>
                                         Другое
                                     </SelectItem>
 
@@ -202,6 +209,7 @@ const EditCode = () => {
                             </Select>
                         </div>
                     </div>
+
 
                     <TextareaField
                         labelText="Примечание"

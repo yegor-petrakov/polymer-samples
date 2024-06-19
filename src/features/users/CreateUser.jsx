@@ -69,16 +69,19 @@ const CreateUser = () => {
     const [password, setPassword] = useState('')
     const handlePasswordChange = (e) => setPassword(e.target.value)
 
-    const [roles, setRoles] = useState([])
-    const handleRolesChange = (e) => setRoles(e)
+    const [role, setRole] = useState('')
+    const handleRoleChange = (e) => setRole(e)
 
-    const [active, setActive] = useState(true)
+    const [isActive, setIsActive] = useState(true)
     const handleActiveChange = (e) => {
-        setActive(prev => !prev)
-        // console.log(e)
+        setIsActive(prev => !prev)
+        // // console.log(e)
     }
 
-    const handleAddNewUser = () => addNewUser({username, password, roles, active})
+    const handleAddNewUser = () => {
+        // console.log(username, password, role, isActive)
+        addNewUser({ username, password, role, is_active: isActive })
+    }
 
     return (
         <div className='p-3'>
@@ -104,29 +107,36 @@ const CreateUser = () => {
                         <Input onChange={handlePasswordChange} type="password" id="password" />
                     </div>
 
+
+
                     <div className="grid w-full items-center gap-1.5">
-                        <Label htmlFor="password">Роли</Label>
-                        <ToggleGroup className="w-fit" type="multiple" onValueChange={handleRolesChange}>
-                            <ToggleGroupItem value="user">
-                                Пользователь
-                            </ToggleGroupItem>
-                            <ToggleGroupItem value="editor">
-                                Редактор
-                            </ToggleGroupItem>
-                            <ToggleGroupItem value="admin">
-                                Админ
-                            </ToggleGroupItem>
-                        </ToggleGroup>
+                        <Label htmlFor="password">Роль</Label>
+                        <Select onValueChange={handleRoleChange}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Выберите роль" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Доступные роли</SelectLabel>
+                                    <SelectItem value="user">user</SelectItem>
+                                    <SelectItem value="editor">editor</SelectItem>
+                                    <SelectItem value="admin">admin</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
 
+
+
+
                     <div className="items-top flex space-x-2">
-                        <Checkbox id="active" onCheckedChange={handleActiveChange} checked={active} />
+                        <Checkbox id="active" onCheckedChange={handleActiveChange} checked={isActive} />
                         <div className="grid gap-1.5 leading-none">
                             <Label
                                 htmlFor="active"
                                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                                Пользователь {active ? 'активен' : 'деактивирован'}
+                                Пользователь {isActive ? 'активен' : 'деактивирован'}
                             </Label>
                             <p className="text-sm text-slate-600">
                                 Деактивированный пользователь не сможет авторизироваться и использовать систему.

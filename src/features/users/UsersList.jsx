@@ -42,7 +42,7 @@ const UsersList = () => {
 
   if (isSuccess) {
 
-    console.log(users)
+    // console.log(users)
 
     content = users && users.map(user => {
       return (

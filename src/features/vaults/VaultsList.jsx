@@ -60,7 +60,7 @@ const VaultsList = () => {
     let content;
     let tableContent
 
-    // console.log(error)
+    // // console.log(error)
 
     if (isLoading) {
         content = <Loader />
@@ -72,7 +72,7 @@ const VaultsList = () => {
 
     if (isSuccess) {
 
-        console.log(vaults)
+        // console.log(vaults)
 
         tableContent = vaults.map(vault => {
 
